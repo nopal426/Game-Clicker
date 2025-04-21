@@ -13,13 +13,13 @@
   <button id="klikBtn" onclick="klik()">Click Me!</button>
 
   <p id="timer">Waktu: 30 detik</p>
-  <p id="highscore">Skor Tertinggi: 0</p>
+  <p id="highscore">Highest Score: 0</p>
 
   <button onclick="restartGame()">Restart</button>
 
   <br><br>
   <label>
-    <input type="checkbox" onchange="toggleTema()"> Mode Terang
+    <input type="checkbox" onchange="toggleTema()"> Light Mode
   </label>
 
   <audio id="klikSound" src="https://www.myinstants.com/media/sounds/minecraft_click.mp3"></audio>
@@ -65,7 +65,7 @@
           localStorage.setItem("highscore", skor);
         }
         document.getElementById("highscore").innerText = "Highest Score: " + highscore;
-        alert("Time Has Run Out! Skormu: " + skor);
+        alert("Time Has Run Out! Your Score: " + skor);
       }
     }
 
