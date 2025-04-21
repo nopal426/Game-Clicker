@@ -1,38 +1,36 @@
 body {
-  background-color: #111827;
-  color: white;
-  font-family: sans-serif;
+  font-family: Arial, sans-serif;
   text-align: center;
-  padding-top: 50px;
+  background-color: #0f172a;
+  color: #ffffff;
+  margin: 0;
+  padding: 20px;
 }
 
-h1 {
-  color: #38bdf8;
-}
-
-input, button {
-  padding: 10px;
-  font-size: 1em;
-  margin: 5px;
-  border-radius: 8px;
-  border: none;
+h1, h2 {
+  color: #3b82f6;
 }
 
 button {
-  background-color: #38bdf8;
-  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
   cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
 }
 
-button:hover {
-  background-color: #0ea5e9;
+input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  margin: 10px;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin: 5px 0;
+#click-button {
+  font-size: 20px;
+  background-color: #22c55e;
 }
