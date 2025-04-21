@@ -1,63 +1,80 @@
-let score = 0;
-let timeLeft = 60;
-let username = "";
-let timerInterval;
+// Ganti dengan URL Web App GAS lu
+const WEB_APP_URL = "https://script.google.com/macros/s/PASTE_LINK_LU_DI_SINI/exec";
 
-function login() {
-  const input = document.getElementById("username");
-  username = input.value.trim();
-  if (username === "") {
-    alert("Please enter a username!");
-    return;
+let skor = 0;
+let waktu = 60;
+let timer;
+let jalan = false;
+
+let highscore = localStorage.getItem("highscore") || 0;
+document.getElementById("highscore").innerText = "High Score: " + highscore;
+
+function klik() {
+  if (!jalan) {
+    jalan = true;
+    timer = setInterval(hitungMundur, 1000);
   }
 
-  document.getElementById("display-name").innerText = username;
-  document.getElementById("login-container").style.display = "none";
-  document.getElementById("game-container").style.display = "block";
-  startGame();
+  skor++;
+  document.getElementById("skor").innerText = skor;
 }
 
-function startGame() {
-  score = 0;
-  timeLeft = 60;
-  document.getElementById("score").innerText = score;
-  document.getElementById("timer").innerText = timeLeft;
-  document.getElementById("click-button").disabled = false;
+function hitungMundur() {
+  waktu--;
+  document.getElementById("timer").innerText = "Time Left: " + waktu + " seconds";
 
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    document.getElementById("timer").innerText = timeLeft;
+  if (waktu <= 0) {
+    clearInterval(timer);
+    jalan = false;
 
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      document.getElementById("click-button").disabled = true;
-      endGame();
+    const nama = document.getElementById("namaPemain").value || "Anonymous";
+    if (skor > highscore) {
+      highscore = skor;
+      localStorage.setItem("highscore", skor);
     }
-  }, 1000);
+
+    document.getElementById("highscore").innerText = "High Score: " + highscore;
+
+    document.getElementById("finalNama").innerText = nama;
+    document.getElementById("finalSkor").innerText = skor;
+    document.getElementById("hasilModal").style.display = "flex";
+
+    // Kirim ke Google Sheets
+    fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify({ nama, skor }),
+      headers: { "Content-Type": "application/json" }
+    }).then(() => loadLeaderboard());
+  }
 }
 
-function handleClick() {
-  score++;
-  document.getElementById("score").innerText = score;
+function restartGame() {
+  skor = 0;
+  waktu = 60;
+  jalan = false;
+  document.getElementById("skor").innerText = skor;
+  document.getElementById("timer").innerText = "Time Left: 60 seconds";
+  document.getElementById("hasilModal").style.display = "none";
 }
 
-function endGame() {
-  saveScore(username, score);
-  showLeaderboard();
+function tutupModal() {
+  document.getElementById("hasilModal").style.display = "none";
 }
 
-function saveScore(name, score) {
-  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-  leaderboard.push({ name, score });
-  leaderboard.sort((a, b) => b.score - a.score);
-  localStorage.setItem("leaderboard", JSON.stringify(leaderboard.slice(0, 10)));
+function loadLeaderboard() {
+  const sheetID = WEB_APP_URL.split("/")[5]; // ambil Sheet ID dari URL
+  const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      data.sort((a, b) => b.skor - a.skor); // urutkan skor tertinggi
+      let isi = "";
+      data.slice(0, 10).forEach(row => {
+        isi += `<li>${row.nama}: ${row.skor}</li>`;
+      });
+      document.getElementById("daftarPemain").innerHTML = isi;
+    });
 }
 
-function showLeaderboard() {
-  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-  const leaderboardDiv = document.getElementById("leaderboard");
-  leaderboardDiv.innerHTML = "<h3>Leaderboard</h3>";
-  leaderboard.forEach((entry, index) => {
-    leaderboardDiv.innerHTML += `<p>${index + 1}. ${entry.name} - ${entry.score}</p>`;
-  });
-}
+loadLeaderboard();
