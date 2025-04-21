@@ -1,0 +1,63 @@
+body {
+  background-color: #0f172a;
+  color: white;
+  text-align: center;
+  font-family: sans-serif;
+  padding-top: 50px;
+}
+
+h1 {
+  font-size: 2em;
+  color: #38bdf8;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  margin-top: 20px;
+  background-color: #38bdf8;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background-color: #0ea5e9;
+}
+
+/* Mode terang */
+body.terang {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+body.terang button {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+body.terang button:hover {
+  background-color: #0284c7;
+}
+
+/* Animasi */
+@keyframes bounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.bounce {
+  animation: bounce 0.2s ease;
+}
+
+#skor.flash {
+  animation: flash 0.2s ease;
+}
+
+@keyframes flash {
+  0%   { color: yellow; }
+  100% { color: white; }
+}
