@@ -5,8 +5,12 @@ let timerInterval;
 
 function login() {
   const input = document.getElementById("username");
-  if (input.value.trim() === "") return alert("Enter a username!");
-  username = input.value;
+  username = input.value.trim();
+  if (username === "") {
+    alert("Please enter a username!");
+    return;
+  }
+
   document.getElementById("display-name").innerText = username;
   document.getElementById("login-container").style.display = "none";
   document.getElementById("game-container").style.display = "block";
@@ -18,45 +22,42 @@ function startGame() {
   timeLeft = 60;
   document.getElementById("score").innerText = score;
   document.getElementById("timer").innerText = timeLeft;
+  document.getElementById("click-button").disabled = false;
+
   timerInterval = setInterval(() => {
     timeLeft--;
     document.getElementById("timer").innerText = timeLeft;
-    if (timeLeft <= 0) endGame();
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById("click-button").disabled = true;
+      endGame();
+    }
   }, 1000);
 }
 
 function handleClick() {
-  if (timeLeft > 0) {
-    score++;
-    document.getElementById("score").innerText = score;
-  }
+  score++;
+  document.getElementById("score").innerText = score;
 }
 
 function endGame() {
-  clearInterval(timerInterval);
   saveScore(username, score);
   showLeaderboard();
 }
 
 function saveScore(name, score) {
-  let scores = JSON.parse(localStorage.getItem("scores")) || [];
-  scores.push({ name, score });
-  scores.sort((a, b) => b.score - a.score);
-  scores = scores.slice(0, 10); // top 10 only
-  localStorage.setItem("scores", JSON.stringify(scores));
+  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+  leaderboard.push({ name, score });
+  leaderboard.sort((a, b) => b.score - a.score);
+  localStorage.setItem("leaderboard", JSON.stringify(leaderboard.slice(0, 10)));
 }
 
 function showLeaderboard() {
-  const scores = JSON.parse(localStorage.getItem("scores")) || [];
-  const board = document.getElementById("leaderboard");
-  board.innerHTML = "";
-  scores.forEach((s, i) => {
-    const li = document.createElement("li");
-    li.textContent = `${s.name} - ${s.score}`;
-    board.appendChild(li);
+  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+  const leaderboardDiv = document.getElementById("leaderboard");
+  leaderboardDiv.innerHTML = "<h3>Leaderboard</h3>";
+  leaderboard.forEach((entry, index) => {
+    leaderboardDiv.innerHTML += `<p>${index + 1}. ${entry.name} - ${entry.score}</p>`;
   });
-}
-
-function restart() {
-  login(); // just re-login to restart game
 }
