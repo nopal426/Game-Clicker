@@ -7,15 +7,15 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Click Sebanyak Mungkin Dalam 1 Menit!</h1>
+  <h1>Click Sebanyak Mungkin Dalam 30 Detik!</h1>
 
-  <p>Skor Kamu: <span id="skor">0</span></p>
-  <button id="klikBtn" onclick="klik()">Klik Aku!</button>
+  <p>Your Score: <span id="skor">0</span></p>
+  <button id="klikBtn" onclick="klik()">Click Me!</button>
 
-  <p id="timer">Waktu: 60 detik</p>
+  <p id="timer">Waktu: 30 detik</p>
   <p id="highscore">Skor Tertinggi: 0</p>
 
-  <button onclick="restartGame()">Mulai Ulang</button>
+  <button onclick="restartGame()">Restart</button>
 
   <br><br>
   <label>
@@ -26,7 +26,7 @@
 
   <script>
     let skor = 0;
-    let waktu = 60;
+    let waktu = 30;
     let timer;
     let jalan = false;
     let highscore = localStorage.getItem("highscore") || 0;
@@ -55,7 +55,7 @@
 
     function hitungMundur() {
       waktu--;
-      document.getElementById("timer").innerText = "Waktu: " + waktu + " detik";
+      document.getElementById("timer").innerText = "Time: " + waktu + " second";
 
       if (waktu <= 0) {
         clearInterval(timer);
@@ -64,18 +64,18 @@
           highscore = skor;
           localStorage.setItem("highscore", skor);
         }
-        document.getElementById("highscore").innerText = "Skor Tertinggi: " + highscore;
-        alert("Waktu Habis! Skormu: " + skor);
+        document.getElementById("highscore").innerText = "Highest Score: " + highscore;
+        alert("Time Has Run Out! Skormu: " + skor);
       }
     }
 
     function restartGame() {
       clearInterval(timer);
       skor = 0;
-      waktu = 60;
+      waktu = 30;
       jalan = false;
       document.getElementById("skor").innerText = skor;
-      document.getElementById("timer").innerText = "Waktu: 60 detik";
+      document.getElementById("timer").innerText = "Waktu: 30 detik";
     }
 
     function toggleTema() {
