@@ -2,23 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clicker Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Click as Many Times as You Can in <span id="timer">60</span> Seconds!</h1>
+  <h1>Clicker Game</h1>
 
-  <div id="login-container">
-    <input type="text" id="username" placeholder="Enter your username" />
-    <button onclick="login()">Login</button>
+  <input type="text" id="namaPemain" placeholder="Enter your name" />
+
+  <p>Your Score: <span id="skor">0</span></p>
+  <button id="klikBtn" onclick="klik()">Click Me!</button>
+
+  <p id="timer">Time Left: 60 seconds</p>
+  <p id="highscore">High Score: 0</p>
+
+  <button onclick="restartGame()">Restart</button>
+
+  <div id="hasilModal" class="modal">
+    <div class="modal-content">
+      <h2>Time's Up!</h2>
+      <p>Hi <span id="finalNama"></span>, your score: <span id="finalSkor"></span></p>
+      <button onclick="tutupModal()">OK</button>
+    </div>
   </div>
 
-  <div id="game-container" style="display: none;">
-    <p>Player: <span id="display-name"></span></p>
-    <p>Score: <span id="score">0</span></p>
-    <button id="click-button" onclick="handleClick()">Click Me!</button>
-    <div id="leaderboard"></div>
+  <div id="leaderboard">
+    <h3>Leaderboard:</h3>
+    <ul id="daftarPemain"></ul>
   </div>
 
   <script src="script.js"></script>
