@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Game Clicker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Click Sebanyak Mungkin Dalam 1 Menit!</h1>
+  <p>Skor Kamu: <span id="skor">0</span></p>
+
+  <button id="klikBtn" onclick="klik()">Klik Aku!</button>
+
+  <p id="timer">Waktu: 60 detik</p>
+  <p id="highscore">Skor Tertinggi: 0</p>
+
+  <button onclick="restartGame()">Mulai Ulang</button>
+
+  <br><br>
+  <label>
+    <input type="checkbox" onchange="toggleTema()"> Mode Terang
+  </label>
+
+  <audio id="klikSound" src="https://www.myinstants.com/media/sounds/minecraft_click.mp3"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
