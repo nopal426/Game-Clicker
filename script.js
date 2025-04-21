@@ -1,76 +1,87 @@
-let skor = 0;
-let waktu = 60;
-let timer;
-let jalan = false;
+let score = 0;
+let time = 60;
+let running = false;
+let currentUser = "";
 
-let highscore = localStorage.getItem("highscore") || 0;
-document.getElementById("highscore").innerText = "High Score: " + highscore;
+function login() {
+  const input = document.getElementById("username").value.trim();
+  if (!input) return alert("Please enter a username.");
 
-function klik() {
-  if (!jalan) {
-    jalan = true;
-    timer = setInterval(hitungMundur, 1000);
-  }
+  currentUser = input;
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("gameSection").style.display = "block";
+  document.getElementById("currentUser").innerText = currentUser;
 
-  skor++;
-  document.getElementById("skor").innerText = skor;
-  document.getElementById("skor").classList.add("flash");
-  document.getElementById("klikBtn").classList.add("bounce");
-
-  const sound = document.getElementById("klikSound");
-  sound.currentTime = 0;
-  sound.play();
-
-  setTimeout(() => {
-    document.getElementById("skor").classList.remove("flash");
-    document.getElementById("klikBtn").classList.remove("bounce");
-  }, 200);
+  loadHighScore();
+  showLeaderboard();
 }
 
-function hitungMundur() {
-  waktu--;
-  document.getElementById("timer").innerText = "Time Left: " + waktu + " seconds";
-
-  if (waktu <= 0) {
-    clearInterval(timer);
-    jalan = false;
-
-    if (skor > highscore) {
-      highscore = skor;
-      localStorage.setItem("highscore", skor);
-    }
-
-    document.getElementById("highscore").innerText = "High Score: " + highscore;
-
-    // Modal & Confetti
-    document.getElementById("finalSkor").innerText = skor;
-    document.getElementById("finalSkor").classList.add("animate");
-    document.getElementById("hasilModal").style.display = "flex";
-
-    confetti({
-      particleCount: 120,
-      spread: 100,
-      origin: { y: 0.6 }
-    });
+function clickMe() {
+  if (!running) {
+    startTimer();
+    running = true;
   }
+
+  score++;
+  document.getElementById("score").innerText = score;
+
+  const clickSound = document.getElementById("clickSound");
+  clickSound.currentTime = 0;
+  clickSound.play();
+}
+
+function startTimer() {
+  const timer = setInterval(() => {
+    time--;
+    document.getElementById("timer").innerText = `Time: ${time} seconds`;
+
+    if (time <= 0) {
+      clearInterval(timer);
+      document.getElementById("clickBtn").disabled = true;
+      document.getElementById("timer").innerText = "Time's up!";
+      saveScore();
+    }
+  }, 1000);
 }
 
 function restartGame() {
-  clearInterval(timer);
-  skor = 0;
-  waktu = 60;
-  jalan = false;
-  document.getElementById("skor").innerText = skor;
-  document.getElementById("timer").innerText = "Time Left: 60 seconds";
-  document.getElementById("klikBtn").disabled = false;
-  document.getElementById("hasilModal").style.display = "none";
-  document.getElementById("finalSkor").classList.remove("animate");
+  score = 0;
+  time = 60;
+  running = false;
+  document.getElementById("score").innerText = score;
+  document.getElementById("timer").innerText = "Time: 60 seconds";
+  document.getElementById("clickBtn").disabled = false;
 }
 
-function toggleTema() {
-  document.body.classList.toggle("terang");
+function saveScore() {
+  const data = JSON.parse(localStorage.getItem("leaderboard")) || {};
+  if (!data[currentUser]) data[currentUser] = 0;
+
+  if (score > data[currentUser]) {
+    data[currentUser] = score;
+    localStorage.setItem("leaderboard", JSON.stringify(data));
+    document.getElementById("highscore").innerText = `High Score: ${score}`;
+    alert("New high score!");
+  }
+
+  showLeaderboard();
 }
 
-function tutupModal() {
-  document.getElementById("hasilModal").style.display = "none";
+function loadHighScore() {
+  const data = JSON.parse(localStorage.getItem("leaderboard")) || {};
+  const high = data[currentUser] || 0;
+  document.getElementById("highscore").innerText = `High Score: ${high}`;
+}
+
+function showLeaderboard() {
+  const data = JSON.parse(localStorage.getItem("leaderboard")) || {};
+  const sorted = Object.entries(data).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+  const list = document.getElementById("leaderboard");
+  list.innerHTML = "";
+  sorted.forEach(([user, sc], i) => {
+    const li = document.createElement("li");
+    li.textContent = `${i + 1}. ${user} - ${sc}`;
+    list.appendChild(li);
+  });
 }
