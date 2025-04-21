@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Game Clicker</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Game Clicker</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Click Sebanyak Mungkin Dalam 1 Menit!</h1>
+
   <p>Skor Kamu: <span id="skor">0</span></p>
   <button id="klikBtn" onclick="klik()">Klik Aku!</button>
 
@@ -22,6 +24,68 @@
 
   <audio id="klikSound" src="https://www.myinstants.com/media/sounds/minecraft_click.mp3"></audio>
 
-  <script src="script.js"></script>
+  <script>
+    let skor = 0;
+    let waktu = 60;
+    let timer;
+    let jalan = false;
+    let highscore = localStorage.getItem("highscore") || 0;
+    document.getElementById("highscore").innerText = "Skor Tertinggi: " + highscore;
+
+    function klik() {
+      if (!jalan) {
+        jalan = true;
+        timer = setInterval(hitungMundur, 1000);
+      }
+
+      skor++;
+      document.getElementById("skor").innerText = skor;
+      document.getElementById("skor").classList.add("flash");
+      document.getElementById("klikBtn").classList.add("bounce");
+
+      const sound = document.getElementById("klikSound");
+      sound.currentTime = 0;
+      sound.play();
+
+      setTimeout(() => {
+        document.getElementById("skor").classList.remove("flash");
+        document.getElementById("klikBtn").classList.remove("bounce");
+      }, 200);
+    }
+
+    function hitungMundur() {
+      waktu--;
+      document.getElementById("timer").innerText = "Waktu: " + waktu + " detik";
+
+      if (waktu <= 0) {
+        clearInterval(timer);
+        jalan = false;
+        if (skor > highscore) {
+          highscore = skor;
+          localStorage.setItem("highscore", skor);
+        }
+        document.getElementById("highscore").innerText = "Skor Tertinggi: " + highscore;
+        alert("Waktu Habis! Skormu: " + skor);
+      }
+    }
+
+    function restartGame() {
+      clearInterval(timer);
+      skor = 0;
+      waktu = 60;
+      jalan = false;
+      document.getElementById("skor").innerText = skor;
+      document.getElementById("timer").innerText = "Waktu: 60 detik";
+    }
+
+    function toggleTema() {
+      document.body.classList.toggle("terang");
+    }
+
+    // Blokir double tap zoom
+    document.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+    }, { passive: false });
+  </script>
 </body>
 </html>
