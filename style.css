@@ -4,6 +4,7 @@ body {
   text-align: center;
   font-family: sans-serif;
   padding-top: 50px;
+  font-size: 16px; /* tambahan buat anti zoom */
 }
 
 h1 {
@@ -21,6 +22,7 @@ button {
   color: white;
   cursor: pointer;
   transition: background 0.2s ease;
+  touch-action: manipulation; /* cegah double tap zoom */
 }
 
 button:hover {
