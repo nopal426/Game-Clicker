@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Clicker Game</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Click as Much as You Can in 1 Minute!</h1>
@@ -16,75 +16,25 @@
   <p id="highscore">High Score: 0</p>
 
   <button onclick="restartGame()">Restart</button>
-
-  <br><br>
+  <br /><br />
   <label>
-    <input type="checkbox" onchange="toggleTema()"> Light Mode
+    <input type="checkbox" onchange="toggleTema()" /> Light Mode
   </label>
 
+  <!-- Modal -->
+  <div id="hasilModal" class="modal">
+    <div class="modal-content">
+      <h2>Time's Up!</h2>
+      <p>Your score: <span id="finalSkor"></span></p>
+      <button onclick="tutupModal()">OK</button>
+    </div>
+  </div>
+
+  <!-- Audio -->
   <audio id="klikSound" src="https://www.myinstants.com/media/sounds/minecraft_click.mp3"></audio>
 
-  <script>
-    let skor = 0;
-    let waktu = 60;
-    let timer;
-    let jalan = false;
-    let highscore = localStorage.getItem("highscore") || 0;
-    document.getElementById("highscore").innerText = "High Score: " + highscore;
-
-    function klik() {
-      if (!jalan) {
-        jalan = true;
-        timer = setInterval(hitungMundur, 1000);
-      }
-
-      skor++;
-      document.getElementById("skor").innerText = skor;
-      document.getElementById("skor").classList.add("flash");
-      document.getElementById("klikBtn").classList.add("bounce");
-
-      const sound = document.getElementById("klikSound");
-      sound.currentTime = 0;
-      sound.play();
-
-      setTimeout(() => {
-        document.getElementById("skor").classList.remove("flash");
-        document.getElementById("klikBtn").classList.remove("bounce");
-      }, 200);
-    }
-
-    function hitungMundur() {
-      waktu--;
-      document.getElementById("timer").innerText = "Time Left: " + waktu + " seconds";
-
-      if (waktu <= 0) {
-        clearInterval(timer);
-        jalan = false;
-        if (skor > highscore) {
-          highscore = skor;
-          localStorage.setItem("highscore", skor);
-        }
-        document.getElementById("highscore").innerText = "High Score: " + highscore;
-        alert("Time's Up! Your score: " + skor);
-      }
-    }
-
-    function restartGame() {
-      clearInterval(timer);
-      skor = 0;
-      waktu = 60;
-      jalan = false;
-      document.getElementById("skor").innerText = skor;
-      document.getElementById("timer").innerText = "Time Left: 60 seconds";
-    }
-
-    function toggleTema() {
-      document.body.classList.toggle("terang");
-    }
-
-    document.addEventListener('dblclick', function(e) {
-      e.preventDefault();
-    }, { passive: false });
-  </script>
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
