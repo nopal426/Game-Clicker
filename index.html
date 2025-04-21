@@ -1,33 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Clicker Game</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Click as Many Times as You Can in 10 Seconds!</h1>
 
-  <div id="loginSection">
-    <input type="text" id="username" placeholder="Enter your username">
+  <div id="login-container">
+    <input type="text" id="username" placeholder="Enter your username" />
     <button onclick="login()">Login</button>
   </div>
 
-  <div id="gameSection" style="display:none;">
-    <p>Welcome, <span id="currentUser"></span>!</p>
-    <p>Your Score: <span id="score">0</span></p>
-
-    <button id="clickBtn" onclick="clickMe()">Click Me!</button>
-    <p id="timer">Time: 10 seconds</p>
-    <p id="highscore">High Score: 0</p>
-
-    <button onclick="restartGame()">Restart</button>
-    <br><br>
-
-    <h2>Leaderboard:</h2>
-    <ul id="leaderboard"></ul>
+  <div id="game-container" style="display: none;">
+    <h2>Welcome, <span id="display-name"></span>!</h2>
+    <p>Time left: <span id="timer">10</span> seconds</p>
+    <button id="click-button" onclick="handleClick()">Click me!</button>
+    <p>Your score: <span id="score">0</span></p>
+    <button onclick="restart()">Play Again</button>
   </div>
 
-  <audio id="clickSound" src="https://www.myinstants.com/media/sounds/minecraft_click.mp3"></audio>
+  <div id="leaderboard-container">
+    <h2>Leaderboard</h2>
+    <ol id="leaderboard"></ol>
+  </div>
 
   <script src="script.js"></script>
 </body>
