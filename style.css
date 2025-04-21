@@ -1,117 +1,38 @@
 body {
-  background-color: #0f172a;
+  background-color: #111827;
   color: white;
-  text-align: center;
   font-family: sans-serif;
+  text-align: center;
   padding-top: 50px;
-  font-size: 16px;
-  user-select: none;
 }
 
 h1 {
-  font-size: 2em;
   color: #38bdf8;
 }
 
-button {
-  padding: 15px 30px;
-  font-size: 18px;
-  margin-top: 20px;
-  background-color: #38bdf8;
+input, button {
+  padding: 10px;
+  font-size: 1em;
+  margin: 5px;
+  border-radius: 8px;
   border: none;
-  border-radius: 10px;
+}
+
+button {
+  background-color: #38bdf8;
   color: white;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 button:hover {
   background-color: #0ea5e9;
 }
 
-body.terang {
-  background-color: #f1f5f9;
-  color: #0f172a;
+ul {
+  list-style: none;
+  padding: 0;
 }
 
-body.terang button {
-  background-color: #0ea5e9;
-  color: white;
-}
-
-body.terang button:hover {
-  background-color: #0284c7;
-}
-
-/* Animasi */
-@keyframes bounce {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.bounce {
-  animation: bounce 0.2s ease;
-}
-
-#skor.flash {
-  animation: flash 0.2s ease;
-}
-
-@keyframes flash {
-  0%   { color: yellow; }
-  100% { color: white; }
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 99;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: #1e293b;
-  color: white;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  animation: modalZoomIn 0.4s ease-out;
-}
-
-.modal-content button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-body.terang .modal-content {
-  background-color: #f1f5f9;
-  color: #0f172a;
-}
-
-/* Modal anim */
-@keyframes modalZoomIn {
-  from { opacity: 0; transform: scale(0.8); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* Skor Akhir Animasi */
-@keyframes skorBounce {
-  0%   { transform: scale(1); opacity: 0; }
-  50%  { transform: scale(1.5); opacity: 1; color: gold; }
-  100% { transform: scale(1); color: white; }
-}
-
-#finalSkor.animate {
-  animation: skorBounce 0.6s ease;
-  font-size: 2em;
-  font-weight: bold;
+li {
+  margin: 5px 0;
 }
