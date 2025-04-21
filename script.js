@@ -54,7 +54,7 @@ function restartGame() {
   waktu = 60;
   jalan = false;
   document.getElementById("skor").innerText = skor;
-  document.getElementById("timer").innerText = "Waktu: 10 detik";
+  document.getElementById("timer").innerText = "Waktu: 60 detik";
   document.getElementById("klikBtn").disabled = false;
 }
 
