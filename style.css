@@ -1,37 +1,64 @@
 body {
-  background-color: #0e1621;
-  color: #ffffff;
-  font-family: sans-serif;
+  background-color: #0f172a;
+  color: white;
   text-align: center;
-  padding: 30px;
-  user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+  font-family: sans-serif;
+  padding-top: 50px;
 }
 
 h1 {
-  color: #00bfff;
+  font-size: 2em;
+  color: #38bdf8;
 }
 
-input, button {
+input {
   padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
+  font-size: 16px;
+  border-radius: 8px;
   border: none;
+  margin-bottom: 10px;
 }
 
-#click-button {
+button {
+  padding: 15px 30px;
   font-size: 18px;
-  background-color: #00bfff;
+  margin: 10px;
+  background-color: #38bdf8;
+  border: none;
+  border-radius: 10px;
   color: white;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-#click-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
+button:hover {
+  background-color: #0ea5e9;
 }
 
 #leaderboard {
-  margin-top: 20px;
+  margin-top: 30px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  left: 0; top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
 }
