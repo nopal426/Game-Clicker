@@ -1,87 +1,62 @@
 let score = 0;
-let time = 60;
-let running = false;
-let currentUser = "";
+let timeLeft = 60;
+let username = "";
+let timerInterval;
 
 function login() {
-  const input = document.getElementById("username").value.trim();
-  if (!input) return alert("Please enter a username.");
-
-  currentUser = input;
-  document.getElementById("loginSection").style.display = "none";
-  document.getElementById("gameSection").style.display = "block";
-  document.getElementById("currentUser").innerText = currentUser;
-
-  loadHighScore();
-  showLeaderboard();
+  const input = document.getElementById("username");
+  if (input.value.trim() === "") return alert("Enter a username!");
+  username = input.value;
+  document.getElementById("display-name").innerText = username;
+  document.getElementById("login-container").style.display = "none";
+  document.getElementById("game-container").style.display = "block";
+  startGame();
 }
 
-function clickMe() {
-  if (!running) {
-    startTimer();
-    running = true;
-  }
-
-  score++;
+function startGame() {
+  score = 0;
+  timeLeft = 60;
   document.getElementById("score").innerText = score;
-
-  const clickSound = document.getElementById("clickSound");
-  clickSound.currentTime = 0;
-  clickSound.play();
-}
-
-function startTimer() {
-  const timer = setInterval(() => {
-    time--;
-    document.getElementById("timer").innerText = `Time: ${time} seconds`;
-
-    if (time <= 0) {
-      clearInterval(timer);
-      document.getElementById("clickBtn").disabled = true;
-      document.getElementById("timer").innerText = "Time's up!";
-      saveScore();
-    }
+  document.getElementById("timer").innerText = timeLeft;
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft;
+    if (timeLeft <= 0) endGame();
   }, 1000);
 }
 
-function restartGame() {
-  score = 0;
-  time = 60;
-  running = false;
-  document.getElementById("score").innerText = score;
-  document.getElementById("timer").innerText = "Time: 60 seconds";
-  document.getElementById("clickBtn").disabled = false;
+function handleClick() {
+  if (timeLeft > 0) {
+    score++;
+    document.getElementById("score").innerText = score;
+  }
 }
 
-function saveScore() {
-  const data = JSON.parse(localStorage.getItem("leaderboard")) || {};
-  if (!data[currentUser]) data[currentUser] = 0;
-
-  if (score > data[currentUser]) {
-    data[currentUser] = score;
-    localStorage.setItem("leaderboard", JSON.stringify(data));
-    document.getElementById("highscore").innerText = `High Score: ${score}`;
-    alert("New high score!");
-  }
-
+function endGame() {
+  clearInterval(timerInterval);
+  saveScore(username, score);
   showLeaderboard();
 }
 
-function loadHighScore() {
-  const data = JSON.parse(localStorage.getItem("leaderboard")) || {};
-  const high = data[currentUser] || 0;
-  document.getElementById("highscore").innerText = `High Score: ${high}`;
+function saveScore(name, score) {
+  let scores = JSON.parse(localStorage.getItem("scores")) || [];
+  scores.push({ name, score });
+  scores.sort((a, b) => b.score - a.score);
+  scores = scores.slice(0, 10); // top 10 only
+  localStorage.setItem("scores", JSON.stringify(scores));
 }
 
 function showLeaderboard() {
-  const data = JSON.parse(localStorage.getItem("leaderboard")) || {};
-  const sorted = Object.entries(data).sort((a, b) => b[1] - a[1]).slice(0, 5);
-
-  const list = document.getElementById("leaderboard");
-  list.innerHTML = "";
-  sorted.forEach(([user, sc], i) => {
+  const scores = JSON.parse(localStorage.getItem("scores")) || [];
+  const board = document.getElementById("leaderboard");
+  board.innerHTML = "";
+  scores.forEach((s, i) => {
     const li = document.createElement("li");
-    li.textContent = `${i + 1}. ${user} - ${sc}`;
-    list.appendChild(li);
+    li.textContent = `${s.name} - ${s.score}`;
+    board.appendChild(li);
   });
+}
+
+function restart() {
+  login(); // just re-login to restart game
 }
