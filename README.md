@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web dari HP</title>
+    Web dari HP
 </head>
 <body>
     <h1>Selamat datang di Website Game Click!</h1>
