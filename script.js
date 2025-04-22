@@ -1,3 +1,4 @@
+// Ganti dengan URL Web App GAS lu
 const WEB_APP_URL = "https://script.google.com/macros/s/PASTE_LINK_LU_DI_SINI/exec";
 
 let skor = 0;
@@ -33,10 +34,12 @@ function hitungMundur() {
     }
 
     document.getElementById("highscore").innerText = "High Score: " + highscore;
+
     document.getElementById("finalNama").innerText = nama;
     document.getElementById("finalSkor").innerText = skor;
     document.getElementById("hasilModal").style.display = "flex";
 
+    // Kirim ke Google Sheets
     fetch(WEB_APP_URL, {
       method: "POST",
       body: JSON.stringify({ nama, skor }),
@@ -52,7 +55,6 @@ function restartGame() {
   document.getElementById("skor").innerText = skor;
   document.getElementById("timer").innerText = "Time Left: 60 seconds";
   document.getElementById("hasilModal").style.display = "none";
-  clearInterval(timer);
 }
 
 function tutupModal() {
@@ -60,13 +62,13 @@ function tutupModal() {
 }
 
 function loadLeaderboard() {
-  const sheetID = WEB_APP_URL.split("/")[5];
+  const sheetID = WEB_APP_URL.split("/")[5]; // ambil Sheet ID dari URL
   const url = `https://opensheet.elk.sh/${sheetID}/Sheet1`;
 
   fetch(url)
     .then(res => res.json())
     .then(data => {
-      data.sort((a, b) => b.skor - a.skor);
+      data.sort((a, b) => b.skor - a.skor); // urutkan skor tertinggi
       let isi = "";
       data.slice(0, 10).forEach(row => {
         isi += `<li>${row.nama}: ${row.skor}</li>`;
